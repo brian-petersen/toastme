@@ -26,8 +26,6 @@ defmodule ToastMeWeb.Router do
 
     get "/", PagesController, :home
 
-    # TODO remove this once you no longer need example of LiveView
-    # live "/old-home", PageLive, :index
     get "/auth/:provider", AuthController, :request
     get "/auth/:provider/callback", AuthController, :callback
   end
