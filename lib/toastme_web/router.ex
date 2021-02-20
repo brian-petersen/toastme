@@ -1,6 +1,8 @@
 defmodule ToastMeWeb.Router do
   use ToastMeWeb, :router
 
+  alias ToastMeWeb.AuthenticatePlug
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,11 @@ defmodule ToastMeWeb.Router do
     plug :put_root_layout, {ToastMeWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  pipeline :browser_authenticate do
+    plug :browser
+    plug AuthenticatePlug
   end
 
   pipeline :api do
@@ -23,6 +30,12 @@ defmodule ToastMeWeb.Router do
     # live "/old-home", PageLive, :index
     get "/auth/:provider", AuthController, :request
     get "/auth/:provider/callback", AuthController, :callback
+  end
+
+  scope "/", ToastMeWeb do
+    pipe_through :browser_authenticate
+
+    live "/setup", SetupLive, :index
   end
 
   # Other scopes may use custom stacks.
