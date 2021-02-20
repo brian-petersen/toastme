@@ -1,0 +1,9 @@
+<section class="text-center mx-auto" style="max-width: 500px">
+<h1 class="py-3">Roaster, Toaster</h1>
+
+<h3>Swipe, match, and roast.</h3>
+
+<%= link "Get Roasting", to: "#", class: "btn btn-primary my-4" %>
+
+<p>Already have an account? <%= link "Sign in", to: "#" %></p>
+</section>

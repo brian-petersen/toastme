@@ -3,6 +3,7 @@ defmodule ToastMeWeb.PageLiveTest do
 
   import Phoenix.LiveViewTest
 
+  @tag :pending
   test "disconnected and connected render", %{conn: conn} do
     {:ok, page_live, disconnected_html} = live(conn, "/")
     assert disconnected_html =~ "Welcome to Phoenix!"

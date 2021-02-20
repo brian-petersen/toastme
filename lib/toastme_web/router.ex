@@ -17,7 +17,10 @@ defmodule ToastMeWeb.Router do
   scope "/", ToastMeWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    get "/", PagesController, :home
+
+    # TODO remove this once you no longer need example of LiveView
+    # live "/old-home", PageLive, :index
   end
 
   # Other scopes may use custom stacks.
