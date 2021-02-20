@@ -1,9 +1,4 @@
-<section class="text-center mx-auto" style="max-width: 500px">
-<h1 class="py-3">Roaster, Toaster</h1>
-
-<h3>Swipe, match, and roast.</h3>
-
-<%= link "Get Roasting", to: "#", class: "btn btn-primary my-4" %>
-
-<p>Already have an account? <%= link "Sign in", to: "#" %></p>
-</section>
+<div class="text-center">
+  <h3>Swipe, match, and roast.</h3>
+  <%= link "Login with Facebook", to: Routes.auth_url(@conn, :request, :facebook), class: "btn btn-primary mt-3" %>
+</div>

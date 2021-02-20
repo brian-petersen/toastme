@@ -21,6 +21,8 @@ defmodule ToastMeWeb.Router do
 
     # TODO remove this once you no longer need example of LiveView
     # live "/old-home", PageLive, :index
+    get "/auth/:provider", AuthController, :request
+    get "/auth/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.
