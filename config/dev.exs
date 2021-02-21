@@ -58,7 +58,7 @@ config :toastme, ToastMeWeb.Endpoint,
 config :toastme, ToastMeWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/static/(?!uploads).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"lib/toastme_web/(live|views)/.*(ex)$",
       ~r"lib/toastme_web/templates/.*(eex)$"
     ]
