@@ -1,7 +1,7 @@
 defmodule ToastMe.Users do
-  alias Ueberauth.Auth
-  alias ToastMe.User
   alias ToastMe.Repo
+  alias ToastMe.User
+  alias Ueberauth.Auth
 
   def find_or_create(%Auth{
         uid: uid,

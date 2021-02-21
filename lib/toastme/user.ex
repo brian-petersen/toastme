@@ -3,10 +3,14 @@ defmodule ToastMe.User do
 
   import Ecto.Changeset
 
+  alias ToastMe.Profile
+
   schema "users" do
     field :facebook_user_id, :string
     field :email, :string
     field :name, :string
+
+    has_one(:profile, Profile)
 
     timestamps()
   end
