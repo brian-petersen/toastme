@@ -34,6 +34,7 @@ defmodule ToastMeWeb.Router do
     pipe_through :browser_authenticate
 
     live "/setup", SetupLive, :index
+    live "/match", MatchLive, :index
   end
 
   # Other scopes may use custom stacks.
