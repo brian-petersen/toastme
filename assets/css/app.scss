@@ -32,18 +32,16 @@ ul.setup-photos {
   }
 }
 
-.match-station {
-  .match-carousel {
-    .carousel-control-prev:focus,
-    .carousel-control-next:focus {
-      opacity: .5;
-    }
+.profile-carousel {
+  .carousel-control-prev:focus,
+  .carousel-control-next:focus {
+    opacity: .5;
+  }
 
-    .carousel-control-prev:hover,
-    .carousel-control-next:hover {
-      background: #000;
-      opacity: .5;
-    }
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    background: #000;
+    opacity: .5;
   }
 }
 

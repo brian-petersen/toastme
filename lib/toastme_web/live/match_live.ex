@@ -4,6 +4,7 @@ defmodule ToastMeWeb.MatchLive do
   alias ToastMe.Profiles
   alias ToastMe.Match
   alias ToastMe.Matches
+  alias ToastMeWeb.ProfileComponent
 
   require Logger
 
@@ -20,16 +21,6 @@ defmodule ToastMeWeb.MatchLive do
   end
 
   @impl true
-  def handle_event("prev-photo", _params, socket) do
-    {:noreply, change_photo(socket, -1)}
-  end
-
-  @impl true
-  def handle_event("next-photo", _params, socket) do
-    {:noreply, change_photo(socket, 1)}
-  end
-
-  @impl true
   def handle_event("pass", _params, socket) do
     create_match(socket, Match.action_pass())
     {:noreply, load_profiles(socket)}
@@ -39,12 +30,6 @@ defmodule ToastMeWeb.MatchLive do
   def handle_event("roast", _params, socket) do
     create_match(socket, Match.action_roast())
     {:noreply, load_profiles(socket)}
-  end
-
-  defp change_photo(socket, change) do
-    %{active_photo: active, matching_profile: %{photos: photos}} = socket.assigns
-    new_index = active + change
-    assign(socket, :active_photo, Integer.mod(new_index, length(photos)))
   end
 
   defp create_match(socket, action) do
@@ -85,9 +70,5 @@ defmodule ToastMeWeb.MatchLive do
 
   defp pop([]) do
     {nil, []}
-  end
-
-  defp resolve_photo(photo) do
-    "/uploads/#{photo}"
   end
 end

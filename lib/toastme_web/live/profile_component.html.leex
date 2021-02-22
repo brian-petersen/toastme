@@ -1,0 +1,27 @@
+<div class="profile-carousel carousel">
+  <div class="carousel-inner">
+    <%= for {photo, index} <- Enum.with_index @profile.photos do %>
+      <div class="carousel-item <%= if index == @active_photo, do: "active" %>">
+        <img src="<%= Profile.resolve_photo photo %>" class="d-block w-100" />
+      </div>
+    <% end %>
+  </div>
+
+  <a
+    href="#"
+    class="carousel-control-prev"
+    phx-click="prev-photo"
+    phx-target="<%= @myself %>">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+
+  <a
+    href="#"
+    class="carousel-control-next"
+    phx-click="next-photo"
+    phx-target="<%= @myself %>">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+</div>
+
+<div class="mt-3"><%= @profile.bio %></div>

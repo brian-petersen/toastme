@@ -23,4 +23,8 @@ defmodule ToastMe.Profile do
     |> validate_length(:photos, min: 1, max: 5)
     |> unique_constraint(:user_id)
   end
+
+  def resolve_photo(photo) do
+    "/uploads/#{photo}"
+  end
 end
