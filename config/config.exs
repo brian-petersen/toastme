@@ -30,7 +30,12 @@ config :phoenix, :json_library, Jason
 # Other
 config :ueberauth, Ueberauth,
   providers: [
-    facebook: {Ueberauth.Strategy.Facebook, []}
+    facebook:
+      {Ueberauth.Strategy.Facebook,
+       [
+         default_scope: "public_profile",
+         display: "page"
+       ]}
   ]
 
 # Import environment specific config. This must remain at the bottom

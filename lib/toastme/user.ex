@@ -15,11 +15,12 @@ defmodule ToastMe.User do
     timestamps()
   end
 
-  @all_fields [:facebook_user_id, :email, :name]
+  @required_fields [:facebook_user_id, :name]
+  @all_fields @required_fields ++ [:email]
 
   def changeset(struct \\ %__MODULE__{}, params) do
     struct
     |> cast(params, @all_fields)
-    |> validate_required(@all_fields)
+    |> validate_required(@required_fields)
   end
 end
