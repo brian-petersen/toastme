@@ -1,0 +1,31 @@
+<div class="roast-station">
+  <%= if @matches == %{} do %>
+    <p>You haven't matched with anyone yet! Get matching to start roasting.</p>
+  <% end %>
+
+  <div class="matches p-2">
+    <%= for {match_id, match} <- @matches do %>
+      <img
+        src="<%= profile_picture(match.matched_profile) %>"
+        class="profile-pic <%= if match_id == @selected_match_id, do: "active" %>"
+        phx-click="set-match"
+        phx-value-match_id="<%= match_id %>" />
+    <% end %>
+  </div>
+
+  <%= if @selected_match_id do %>
+    <%= if @show_profile do %>
+      <div class="chat-profile mb-2">
+        <div class="bg-dark text-white p-3">
+          <a href="#" class="close text-white pb-2" phx-click="close-profile">&times;</a>
+          <div class="clearfix"></div>
+          <%= live_component @socket, ProfileComponent, id: "profile", profile: @matches[@selected_match_id].matched_profile %>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="chat">
+      Chat under active construction.
+    </div>
+  <% end %>
+</div>

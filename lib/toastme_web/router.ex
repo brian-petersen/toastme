@@ -35,6 +35,7 @@ defmodule ToastMeWeb.Router do
 
     live "/setup", SetupLive, :index
     live "/match", MatchLive, :index
+    live "/roast", RoastLive, :index
   end
 
   # Development only endpoints
