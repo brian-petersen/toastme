@@ -25,4 +25,13 @@ defmodule ToastMeWeb.AuthController do
         |> redirect(to: Routes.pages_path(conn, :home))
     end
   end
+
+  if Mix.env() in [:dev, :test] do
+    def dangerous(conn, %{"user_id" => user_id}) do
+      conn
+      |> put_session(:current_user_id, String.to_integer(user_id))
+      |> configure_session(renew: true)
+      |> redirect(to: Routes.pages_path(conn, :home))
+    end
+  end
 end
