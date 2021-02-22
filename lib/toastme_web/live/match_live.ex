@@ -6,8 +6,8 @@ defmodule ToastMeWeb.MatchLive do
   alias ToastMe.Matches
   alias ToastMeWeb.ProfileComponent
 
-  require Logger
-
+  # TODO properly handle the call to this twice so no hiding it when connecting isn't needed:
+  # https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html#c:handle_params/3
   @impl true
   def mount(_params, %{"profile" => profile}, socket) do
     {:ok,

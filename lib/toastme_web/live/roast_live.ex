@@ -3,9 +3,8 @@ defmodule ToastMeWeb.RoastLive do
 
   alias ToastMe.Profile
   alias ToastMe.Matches
+  alias ToastMeWeb.ChatLive
   alias ToastMeWeb.ProfileComponent
-
-  require Logger
 
   @impl true
   def mount(_params, %{"profile" => profile}, socket) do
