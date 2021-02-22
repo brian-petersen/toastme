@@ -9,13 +9,9 @@ defmodule ToastMeWeb.MatchLive do
   require Logger
 
   @impl true
-  def mount(_params, session, socket) do
-    %{"current_user_id" => user_id} = session
-    profile = Profiles.get_for_user(user_id)
-
+  def mount(_params, %{"profile" => profile}, socket) do
     {:ok,
      socket
-     |> assign(:user_id, user_id)
      |> assign(:profile_id, profile.id)
      |> load_profiles()}
   end
@@ -59,7 +55,6 @@ defmodule ToastMeWeb.MatchLive do
     {matching_profile, new_next_profiles} = do_load_profiles(profile_id, next_profiles)
 
     socket
-    |> assign(:active_photo, 0)
     |> assign(:matching_profile, matching_profile)
     |> assign(:next_profiles, new_next_profiles)
   end

@@ -2,22 +2,17 @@ defmodule ToastMeWeb.RoastLive do
   use ToastMeWeb, :live_view
 
   alias ToastMe.Profile
-  alias ToastMe.Profiles
   alias ToastMe.Matches
   alias ToastMeWeb.ProfileComponent
 
   require Logger
 
   @impl true
-  def mount(_params, session, socket) do
-    %{"current_user_id" => user_id} = session
-    profile = Profiles.get_for_user(user_id)
+  def mount(_params, %{"profile" => profile}, socket) do
     matches = load_matches(profile)
 
     {:ok,
      socket
-     |> assign(:user_id, user_id)
-     |> assign(:profile_id, profile.id)
      |> assign(:matches, matches)
      |> assign(:selected_match_id, nil)
      |> assign(:show_profile, false)}
