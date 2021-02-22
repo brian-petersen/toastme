@@ -13,6 +13,8 @@ user5 = Repo.insert!(%User{facebook_user_id: "fake-05", name: "Kavan Ireland"})
 user6 = Repo.insert!(%User{facebook_user_id: "fake-06", name: "Octavia Vu"})
 user7 = Repo.insert!(%User{facebook_user_id: "fake-07", name: "Aliya Shannon"})
 user8 = Repo.insert!(%User{facebook_user_id: "fake-08", name: "Kierran Paterson"})
+_user9 = Repo.insert!(%User{facebook_user_id: "fake-09", name: "No profile :("})
+_user10 = Repo.insert!(%User{facebook_user_id: "fake-10", name: "I'm a loser"})
 
 _profile1 =
   Repo.insert!(%Profile{
