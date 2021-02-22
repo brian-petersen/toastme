@@ -5,6 +5,13 @@ defmodule ToastMeWeb.AuthController do
 
   plug Ueberauth
 
+  def logout(conn, _params) do
+    conn
+    |> put_flash(:info, "Thanks for being a good sport! Hope to see you around.")
+    |> clear_session()
+    |> redirect(to: Routes.pages_path(conn, :home))
+  end
+
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
     conn
     |> put_flash(:error, "Failed to login! Please try again.")
