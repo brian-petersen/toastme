@@ -1,1 +1,37 @@
-<p>Under construction!</p>
+<div class="match-station">
+  <%= if @matching_profile do %>
+    <div class="match-carousel carousel">
+      <div class="carousel-inner">
+        <%= for {photo, index} <- Enum.with_index @matching_profile.photos do %>
+          <div class="carousel-item <%= if index == @active_photo, do: "active" %>">
+            <img src="<%= resolve_photo photo %>" class="d-block w-100" />
+          </div>
+        <% end %>
+      </div>
+
+      <a class="carousel-control-prev" href="#" phx-click="prev-photo">
+        <span class="carousel-control-prev-icon"></span>
+      </a>
+
+      <a class="carousel-control-next" href="#" phx-click="next-photo">
+        <span class="carousel-control-next-icon"></span>
+      </a>
+    </div>
+
+    <div class="my-3"><%= @matching_profile.bio %></div>
+
+    <div class="row">
+      <div class="col">
+        <button class="btn btn-danger w-100" phx-click="pass">Pass</button>
+      </div>
+      <div class="col">
+        <button class="btn btn-primary w-100" phx-click="roast">Roast</button>
+      </div>
+    </div>
+  <%= else %>
+    <p>
+      You've ran out of profiles to match with.
+      Check back later after others have joined!
+    </p>
+  <% end %>
+</div>
