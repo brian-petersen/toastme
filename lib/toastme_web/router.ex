@@ -26,6 +26,7 @@ defmodule ToastMeWeb.Router do
 
     get "/", PagesController, :home
 
+    get "/auth/logout", AuthController, :logout
     get "/auth/:provider", AuthController, :request
     get "/auth/:provider/callback", AuthController, :callback
   end
