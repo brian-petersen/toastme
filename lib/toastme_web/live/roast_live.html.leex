@@ -15,7 +15,7 @@
 
   <%= if @selected_match_id do %>
     <%= if @show_profile do %>
-      <div class="chat-profile mb-2">
+      <div class="chat-profile">
         <div class="bg-dark text-white p-3">
           <a href="#" class="close text-white pb-2" phx-click="close-profile">&times;</a>
           <div class="clearfix"></div>
@@ -24,8 +24,6 @@
       </div>
     <% end %>
 
-    <div class="chat">
-      Chat under active construction.
-    </div>
+    <%= live_render @socket, ChatLive, id: "chat-#{@selected_match_id}", session: %{"match" => @matches[@selected_match_id]} %>
   <% end %>
 </div>

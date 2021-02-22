@@ -73,3 +73,14 @@ ul.setup-photos {
     }
   }
 }
+
+.chat-station {
+  .messages {
+    max-height: 300px;
+    overflow: auto;
+  }
+
+  .timestamp {
+    font-size: .9em;
+  }
+}
