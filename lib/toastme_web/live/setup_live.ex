@@ -12,6 +12,7 @@ defmodule ToastMeWeb.SetupLive do
 
     {:ok,
      socket
+     |> assign(:hide_profile_dependent_menu, true)
      |> assign(:user_id, user_id)
      |> assign(:bio, "")
      |> allow_upload(:photos,
