@@ -2,6 +2,7 @@ defmodule ToastMeWeb.Router do
   use ToastMeWeb, :router
 
   alias ToastMeWeb.AuthenticatePlug
+  alias ToastMeWeb.EnsureProfilePlug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -15,6 +16,11 @@ defmodule ToastMeWeb.Router do
   pipeline :browser_authenticate do
     plug :browser
     plug AuthenticatePlug
+  end
+
+  pipeline :browser_authenticate_profile do
+    plug :browser_authenticate
+    plug EnsureProfilePlug
   end
 
   pipeline :api do
@@ -33,8 +39,11 @@ defmodule ToastMeWeb.Router do
 
   scope "/", ToastMeWeb do
     pipe_through :browser_authenticate
-
     live "/setup", SetupLive, :index
+  end
+
+  scope "/", ToastMeWeb do
+    pipe_through :browser_authenticate_profile
     live "/match", MatchLive, :index
     live "/roast", RoastLive, :index
   end
