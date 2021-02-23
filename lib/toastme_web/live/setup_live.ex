@@ -27,6 +27,11 @@ defmodule ToastMeWeb.SetupLive do
   end
 
   @impl true
+  # This is needed for the file input to work
+  def handle_event("change", _params, socket) do
+    {:noreply, socket}
+  end
+
   def handle_event("submit", %{"bio" => bio}, socket) do
     params = %{
       user_id: socket.assigns.user_id,
