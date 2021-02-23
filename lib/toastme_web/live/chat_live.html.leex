@@ -14,9 +14,9 @@
     </div>
   </div>
 
-  <form phx-submit="send">
+  <form class="mt-2" phx-change="change" phx-submit="send">
     <div class="input-group">
-      <textarea name="draft" class="form-control"></textarea>
+      <input type="text" class="form-control" name="draft" value="<%= @draft %>" />
       <div class="input-group-prepend">
         <button type="submit" class="btn btn-primary">Send</button>
       </div>

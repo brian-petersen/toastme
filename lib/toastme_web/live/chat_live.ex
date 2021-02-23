@@ -24,10 +24,16 @@ defmodule ToastMeWeb.ChatLive do
 
     {:ok,
      socket
+     |> assign(:draft, "")
      |> assign(:topic_name, topic_name)
      |> assign(:profile_id, profile.id)
      |> assign(:matched_profile_id, matched_profile.id)
      |> assign(:messages, messages)}
+  end
+
+  @impl true
+  def handle_event("change", %{"draft" => draft}, socket) do
+    {:noreply, assign(socket, :draft, draft)}
   end
 
   @impl true
@@ -75,7 +81,7 @@ defmodule ToastMeWeb.ChatLive do
     case Messages.create(params) do
       {:ok, message} ->
         Endpoint.broadcast(socket.assigns.topic_name, @new_message, message)
-        socket
+        assign(socket, :draft, "")
 
       error ->
         Logger.error("Failed to send message: #{inspect(error)}")
