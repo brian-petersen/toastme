@@ -31,6 +31,8 @@ defmodule ToastMeWeb.Router do
     pipe_through :browser
 
     get "/", PagesController, :home
+    get "/delete-data", PagesController, :delete
+    get "/privacy-policy", PagesController, :privacy
 
     get "/auth/logout", AuthController, :logout
     get "/auth/:provider", AuthController, :request

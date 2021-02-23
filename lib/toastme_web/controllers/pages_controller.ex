@@ -19,6 +19,14 @@ defmodule ToastMeWeb.PagesController do
     end
   end
 
+  def delete(conn, _params) do
+    render(conn, "delete_data.html")
+  end
+
+  def privacy(conn, _params) do
+    render(conn, "privacy_policy.html")
+  end
+
   defp has_setup_profile?(conn) do
     profile =
       conn
