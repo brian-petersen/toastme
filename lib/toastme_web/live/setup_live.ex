@@ -14,6 +14,7 @@ defmodule ToastMeWeb.SetupLive do
      socket
      |> assign(:hide_profile_dependent_menu, true)
      |> assign(:user_id, user_id)
+     |> assign(:bio, "")
      |> allow_upload(:photos,
        accept: ~w(.jpg .jpeg .png),
        max_file_size: 5 * 1_024 * 1_024,
@@ -27,15 +28,15 @@ defmodule ToastMeWeb.SetupLive do
   end
 
   @impl true
-  # This is needed for the file input to work
-  def handle_event("change", _params, socket) do
-    {:noreply, socket}
+  def handle_event("change", %{"bio" => bio}, socket) do
+    {:noreply, assign(socket, :bio, bio)}
   end
 
-  def handle_event("submit", %{"bio" => bio}, socket) do
+  @impl true
+  def handle_event("submit", _params, socket) do
     params = %{
       user_id: socket.assigns.user_id,
-      bio: bio,
+      bio: socket.assigns.bio,
       photos: get_photo_filenames(socket)
     }
 
