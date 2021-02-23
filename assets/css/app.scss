@@ -75,7 +75,9 @@ ul.setup-photos {
 }
 
 .chat-station {
-  .messages {
+  .messages-wrapper {
+    display: flex;
+    flex-direction: column-reverse;
     max-height: 300px;
     overflow: auto;
   }

@@ -1,16 +1,17 @@
 <div class="chat-station mt-3">
-
-  <div class="messages pr-2">
-    <%= if @messages == [] do %>
-      <p class="font-italic text-center">No messages have been sent yet.</p>
-    <% else %>
-      <%= for message <- @messages do %>
-        <p class="<%= message_class(message, @profile_id) %>">
-          <%= message.message %><br>
-          <span class="font-italic font-weight-light timestamp"><%= message.inserted_at %></span>
-        </p>
+  <div class="messages-wrapper">
+    <div class="messages pr-2">
+      <%= if @messages == [] do %>
+        <p class="font-italic text-center">No messages have been sent yet.</p>
+      <% else %>
+        <%= for message <- @messages do %>
+          <p class="<%= message_class(message, @profile_id) %>">
+            <%= message.message %><br>
+            <span class="font-italic font-weight-light timestamp"><%= message.inserted_at %></span>
+          </p>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 
   <form phx-submit="send">
