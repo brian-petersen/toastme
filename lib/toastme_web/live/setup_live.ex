@@ -55,7 +55,7 @@ defmodule ToastMeWeb.SetupLive do
   defp copy_uploaded_files(socket, profile) do
     consume_uploaded_entries(socket, :photos, fn meta, entry ->
       filename = get_photo_entry_filename(entry)
-      dest = Path.join("priv/static/uploads", filename)
+      dest = Path.join([Application.app_dir(:toastme), "priv/static/uploads", filename])
 
       case File.cp(meta.path, dest) do
         {:error, reason} ->
