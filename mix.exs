@@ -33,6 +33,7 @@ defmodule ToastMe.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:bcrypt_elixir, "~> 2.3"},
       {:ecto_sql, "~> 3.4"},
       {:floki, ">= 0.27.0", only: :test},
       {:jason, "~> 1.0"},
@@ -45,9 +46,7 @@ defmodule ToastMe.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:postgrex, ">= 0.0.0"},
       {:telemetry_metrics, "~> 0.4"},
-      {:telemetry_poller, "~> 0.4"},
-      {:ueberauth, "~> 0.6.3"},
-      {:ueberauth_facebook, "~> 0.8.1"}
+      {:telemetry_poller, "~> 0.4"}
     ]
   end
 

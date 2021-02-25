@@ -25,20 +25,22 @@
     </p>
   <% end %>
 
-  <ul class="nav justify-content-center">
-    <%= unless assigns[:hide_profile_dependent_menu] do %>
-      <li class="nav-item">
-        <%= live_redirect "Match", to: Routes.match_path(@socket, :index), class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= live_redirect "Roast", to: Routes.roast_path(@socket, :index), class: "nav-link" %>
-      </li>
-    <% end %>
+  <%= unless assigns[:hide_menu] do %>
+    <ul class="nav justify-content-center">
+      <%= unless assigns[:hide_profile_dependent_menu] do %>
+        <li class="nav-item">
+          <%= live_redirect "Match", to: Routes.match_path(@socket, :index), class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= live_redirect "Roast", to: Routes.roast_path(@socket, :index), class: "nav-link" %>
+        </li>
+      <% end %>
 
-    <li class="nav-item">
-      <%= link "Logout", to: Routes.auth_path(@socket, :logout), class: "nav-link text-danger" %>
-    </li>
-  </ul>
+      <li class="nav-item">
+        <%= link "Logout", to: Routes.sessions_path(@socket, :delete), class: "nav-link text-danger" %>
+      </li>
+    </ul>
+  <% end %>
 
   <%= @inner_content %>
 </main>

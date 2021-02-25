@@ -30,13 +30,10 @@ defmodule ToastMeWeb.Router do
   scope "/", ToastMeWeb do
     pipe_through :browser
 
-    get "/", PagesController, :home
-    get "/delete-data", PagesController, :delete
-    get "/privacy-policy", PagesController, :privacy
+    live "/", HomeLive, :index
 
-    get "/auth/logout", AuthController, :logout
-    get "/auth/:provider", AuthController, :request
-    get "/auth/:provider/callback", AuthController, :callback
+    get "/sessions/delete", SessionsController, :delete
+    get "/sessions/:token", SessionsController, :create
   end
 
   scope "/", ToastMeWeb do
@@ -57,11 +54,6 @@ defmodule ToastMeWeb.Router do
     scope "/" do
       pipe_through :browser
       live_dashboard "/dashboard", metrics: ToastMeWeb.Telemetry
-    end
-
-    scope "/", ToastMeWeb do
-      pipe_through :browser
-      get "/dangerous/:user_id", AuthController, :dangerous
     end
   end
 end

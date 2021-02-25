@@ -3,28 +3,34 @@ defmodule ToastMeWeb.ErrorHelpers do
   Conveniences for translating and building error messages.
   """
 
-  use Phoenix.HTML
-
-  @doc """
-  Generates tag for inlined form input errors.
-  """
-  def error_tag(form, field) do
-    Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      content_tag(:span, translate_error(error),
-        class: "invalid-feedback",
-        phx_feedback_for: input_id(form, field)
-      )
-    end)
+  def pretty_errors(errors) do
+    Enum.map(errors, &do_prettify/1)
   end
 
-  @doc """
-  Translates an error message.
-  """
-  def translate_error({msg, opts}) do
-    # Because the error messages we show in our forms and APIs
-    # are defined inside Ecto, we need to translate them dynamically.
-    Enum.reduce(opts, msg, fn {key, value}, acc ->
-      String.replace(acc, "%{#{key}}", to_string(value))
-    end)
+  defp do_prettify({field_name, message}) when is_bitstring(message) do
+    human_field_name =
+      field_name
+      |> Atom.to_string()
+      |> String.replace("_", " ")
+      |> String.capitalize()
+
+    human_field_name <> " " <> message
   end
+
+  defp do_prettify({field_name, {message, variables}}) do
+    compound_message = do_interpolate(message, variables)
+    do_prettify({field_name, compound_message})
+  end
+
+  defp do_interpolate(string, [{name, value} | rest]) do
+    n = Atom.to_string(name)
+    msg = String.replace(string, "%{#{n}}", do_to_string(value))
+    do_interpolate(msg, rest)
+  end
+
+  defp do_interpolate(string, []), do: string
+
+  defp do_to_string(value) when is_integer(value), do: Integer.to_string(value)
+  defp do_to_string(value) when is_bitstring(value), do: value
+  defp do_to_string(value) when is_atom(value), do: Atom.to_string(value)
 end

@@ -5,16 +5,22 @@ alias ToastMe.User
 File.mkdir_p!("priv/static/uploads")
 File.cp_r!("priv/seed-uploads", "priv/static/uploads")
 
-user1 = Repo.insert!(%User{facebook_user_id: "fake-01", name: "Billy Joel"})
-user2 = Repo.insert!(%User{facebook_user_id: "fake-02", name: "Musa Kearney"})
-user3 = Repo.insert!(%User{facebook_user_id: "fake-03", name: "Caio Lin"})
-user4 = Repo.insert!(%User{facebook_user_id: "fake-04", name: "Kiri Morrison"})
-user5 = Repo.insert!(%User{facebook_user_id: "fake-05", name: "Kavan Ireland"})
-user6 = Repo.insert!(%User{facebook_user_id: "fake-06", name: "Octavia Vu"})
-user7 = Repo.insert!(%User{facebook_user_id: "fake-07", name: "Aliya Shannon"})
-user8 = Repo.insert!(%User{facebook_user_id: "fake-08", name: "Kierran Paterson"})
-_user9 = Repo.insert!(%User{facebook_user_id: "fake-09", name: "No profile :("})
-_user10 = Repo.insert!(%User{facebook_user_id: "fake-10", name: "I'm a loser"})
+create_user = fn username ->
+  %{username: username, password: "password", password_confirmation: "password"}
+  |> User.changeset()
+  |> Repo.insert!()
+end
+
+user1 = create_user.("user01")
+user2 = create_user.("user02")
+user3 = create_user.("user03")
+user4 = create_user.("user04")
+user5 = create_user.("user05")
+user6 = create_user.("user06")
+user7 = create_user.("user07")
+user8 = create_user.("user08")
+_user9 = create_user.("user09")
+_user10 = create_user.("user10")
 
 _profile1 =
   Repo.insert!(%Profile{

@@ -1,4 +1,0 @@
-<div class="text-center">
-  <h3>Swipe, match, and roast.</h3>
-  <%= link "Login with Facebook", to: Routes.auth_url(@conn, :request, :facebook), class: "btn btn-primary mt-3" %>
-</div>
