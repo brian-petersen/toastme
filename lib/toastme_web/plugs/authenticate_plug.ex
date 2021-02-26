@@ -1,6 +1,8 @@
 defmodule ToastMeWeb.AuthenticatePlug do
   alias ToastMeWeb.Authentication
+  alias ToastMeWeb.Router.Helpers
 
+  import Phoenix.Controller
   import Plug.Conn
 
   def init(default) do
@@ -12,7 +14,7 @@ defmodule ToastMeWeb.AuthenticatePlug do
       conn
     else
       conn
-      |> send_resp(401, "Not authorized")
+      |> redirect(to: Helpers.home_path(conn, :index))
       |> halt()
     end
   end

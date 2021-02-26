@@ -7,7 +7,9 @@ defmodule ToastMeWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_toastme_key",
-    signing_salt: "jq4EIoul"
+    signing_salt: "jq4EIoul",
+    # week in seconds
+    max_age: 60 * 60 * 24 * 7
   ]
 
   socket "/socket", ToastMeWeb.UserSocket,

@@ -30,7 +30,7 @@ defmodule ToastMeWeb.Router do
   scope "/", ToastMeWeb do
     pipe_through :browser
 
-    live "/", HomeLive, :index
+    get "/", HomeController, :index
 
     get "/sessions/delete", SessionsController, :delete
     get "/sessions/:token", SessionsController, :create
