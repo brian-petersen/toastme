@@ -1,5 +1,5 @@
 defmodule ToastMe.Profiles do
-  import Ecto.Query
+  import Ecto.Query, except: [update: 2]
 
   alias ToastMe.Match
   alias ToastMe.Profile
@@ -10,6 +10,19 @@ defmodule ToastMe.Profiles do
     params
     |> Profile.changeset()
     |> Repo.insert()
+  end
+
+  def create_or_update(%{user_id: user_id} = params) do
+    {action, result} =
+      case get_for_user(user_id) do
+        nil -> {:create, create(params)}
+        profile -> {:update, update(profile, params)}
+      end
+
+    case result do
+      {:ok, profile} -> {:ok, profile, action}
+      error -> error
+    end
   end
 
   def get_for_user(%User{id: id}) do
@@ -39,5 +52,11 @@ defmodule ToastMe.Profiles do
     query
     |> Repo.all()
     |> Enum.shuffle()
+  end
+
+  def update(%Profile{} = profile, params) do
+    profile
+    |> Profile.changeset(params)
+    |> Repo.update()
   end
 end

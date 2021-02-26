@@ -2,6 +2,7 @@ defmodule ToastMeWeb.SetupLive do
   use ToastMeWeb, :live_view
 
   alias Phoenix.Naming
+  alias ToastMe.Profile
   alias ToastMe.Profiles
   alias ToastMeWeb.ErrorHelpers
 
@@ -12,17 +13,29 @@ defmodule ToastMeWeb.SetupLive do
   def mount(_params, session, socket) do
     %{"current_user_id" => user_id} = session
 
+    profile = Profiles.get_for_user(user_id)
+
+    bio = if profile, do: profile.bio, else: ""
+    uploaded_photos = if profile, do: profile.photos, else: []
+
     {:ok,
      socket
-     |> assign(:hide_profile_dependent_menu, true)
+     |> assign(:hide_profile_dependent_menu, profile == nil)
      |> assign(:user_id, user_id)
-     |> assign(:bio, "")
+     |> assign(:bio, bio)
+     |> assign(:uploaded_photos, uploaded_photos)
      |> allow_upload(:photos,
        accept: ~w(.jpg .jpeg .png),
        max_file_size: 5 * 1024 * 1024,
        max_entries: 5
      )
      |> assign(:errors, [])}
+  end
+
+  @impl true
+  def handle_event("remove-uploaded-photo", %{"path" => path}, socket) do
+    uploaded_photos = Enum.reject(socket.assigns.uploaded_photos, &(&1 == path))
+    {:noreply, assign(socket, :uploaded_photos, uploaded_photos)}
   end
 
   @impl true
@@ -43,14 +56,14 @@ defmodule ToastMeWeb.SetupLive do
     params = %{
       user_id: socket.assigns.user_id,
       bio: socket.assigns.bio,
-      photos: get_photo_filenames(socket)
+      photos: socket.assigns.uploaded_photos ++ get_photo_filenames(socket)
     }
 
     socket =
-      case Profiles.create(params) do
-        {:ok, profile} ->
+      case Profiles.create_or_update(params) do
+        {:ok, profile, action} ->
           copy_uploaded_files(socket, profile)
-          redirect(socket, to: Routes.match_path(socket, :index))
+          submit_success_result(socket, profile, action)
 
         {:error, changeset} ->
           errors = ErrorHelpers.pretty_errors(changeset.errors)
@@ -95,5 +108,16 @@ defmodule ToastMeWeb.SetupLive do
   defp get_photo_filenames(socket) do
     {photo_entries, []} = uploaded_entries(socket, :photos)
     Enum.map(photo_entries, &get_photo_entry_filename/1)
+  end
+
+  defp submit_success_result(socket, _profile, :create) do
+    redirect(socket, to: Routes.match_path(socket, :index))
+  end
+
+  defp submit_success_result(socket, profile, :update) do
+    socket
+    |> assign(:bio, profile.bio)
+    |> assign(:uploaded_photos, profile.photos)
+    |> put_flash(:info, "Updated profile")
   end
 end

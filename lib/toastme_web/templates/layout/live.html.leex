@@ -1,4 +1,24 @@
 <main class="container">
+  <%= unless assigns[:hide_menu] do %>
+    <ul class="nav justify-content-center">
+      <%= unless assigns[:hide_profile_dependent_menu] do %>
+        <li class="nav-item">
+          <%= live_redirect "Edit Profile", to: Routes.setup_path(@socket, :index), class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= live_redirect "Match", to: Routes.match_path(@socket, :index), class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= live_redirect "Roast", to: Routes.roast_path(@socket, :index), class: "nav-link" %>
+        </li>
+      <% end %>
+
+      <li class="nav-item">
+        <%= link "Logout", to: Routes.sessions_path(@socket, :delete), class: "nav-link text-danger" %>
+      </li>
+    </ul>
+  <% end %>
+
   <%= if live_flash(@flash, :info) do %>
     <p class="alert alert-info">
       <%= live_flash(@flash, :info) %>
@@ -23,23 +43,6 @@
         &times;
       </button>
     </p>
-  <% end %>
-
-  <%= unless assigns[:hide_menu] do %>
-    <ul class="nav justify-content-center">
-      <%= unless assigns[:hide_profile_dependent_menu] do %>
-        <li class="nav-item">
-          <%= live_redirect "Match", to: Routes.match_path(@socket, :index), class: "nav-link" %>
-        </li>
-        <li class="nav-item">
-          <%= live_redirect "Roast", to: Routes.roast_path(@socket, :index), class: "nav-link" %>
-        </li>
-      <% end %>
-
-      <li class="nav-item">
-        <%= link "Logout", to: Routes.sessions_path(@socket, :delete), class: "nav-link text-danger" %>
-      </li>
-    </ul>
   <% end %>
 
   <%= @inner_content %>

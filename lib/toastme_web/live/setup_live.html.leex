@@ -30,6 +30,19 @@
     <label>Photos </label>
     <p class="font-weight-light">You need at least one and can have up to five. Max file size is 5 MB.</p>
     <ul class="setup-photos my-2">
+      <%= for photo <- @uploaded_photos do %>
+        <li>
+          <img src="<%= Profile.resolve_photo(photo) %>" width="200" />
+
+          <span
+            class="remove-photo"
+            phx-click="remove-uploaded-photo"
+            phx-value-path="<%= photo %>">
+            &times;
+          </span>
+        </li>
+      <% end %>
+
       <%= for photo <- @uploads.photos.entries do %>
         <li>
           <%= live_img_preview photo, width: 200 %>
