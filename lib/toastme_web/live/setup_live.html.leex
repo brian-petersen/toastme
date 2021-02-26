@@ -1,11 +1,11 @@
 <% errors = format_errors(@errors, @uploads.photos.errors) %>
 
-<p>
-  Setup your profile here so you can start roasting!
-  Don't worry, only people you match with can roast you later.
-</p>
-
-<hr>
+<%= if @creating_profile do %>
+  <div class="p-3 mb-3 bg-dark text-white rounded">
+    Setup your profile here so you can start roasting!
+    Don't worry, only people you match with can roast you later.
+  </div>
+<% end %>
 
 <%= if errors != [] do %>
   <ul class="alert alert-danger pl-5">
