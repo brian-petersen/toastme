@@ -30,7 +30,7 @@ trigger_deploy:
       --request POST
       --form token=$CI_JOB_TOKEN
       --form ref=master
-      --form variables[SERVICE_NAME]=toastme
+      --form variables[SERVICE_NAME]=slam
       https://gitlab.com/api/v4/projects/16132375/trigger/pipeline
   only:
     refs:
