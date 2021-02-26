@@ -1,2 +1,2 @@
-ExUnit.start(exclude: :pending)
+ExUnit.start()
 Ecto.Adapters.SQL.Sandbox.mode(ToastMe.Repo, :manual)

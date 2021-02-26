@@ -77,12 +77,12 @@ defmodule ToastMeWeb.HomeLive do
   def handle_event("register", params, socket) do
     socket =
       case Users.register(params) do
+        {:ok, user} ->
+          login(socket, user.id)
+
         {:error, changeset} ->
           errors = ErrorHelpers.pretty_errors(changeset.errors)
           assign(socket, :errors, errors)
-
-        {:ok, user} ->
-          login(socket, user.id)
       end
 
     {:noreply, socket}

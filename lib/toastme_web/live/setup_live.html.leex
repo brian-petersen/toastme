@@ -1,23 +1,54 @@
-<form phx-change="change" phx-submit="submit">
-  <textarea name="bio" class="form-control" placeholder="Roast worthy bio..."><%= @bio %></textarea>
+<% errors = format_errors(@errors, @uploads.photos.errors) %>
 
-  <ul class="setup-photos my-2">
-    <%= for photo <- @uploads.photos.entries do %>
-      <li>
-        <%# TODO show progress of upload %>
-        <%= live_img_preview photo, width: 200 %>
+<p>
+  Setup your profile here so you can start roasting!
+  Don't worry, only people you match with can roast you later.
+</p>
 
-        <span
-          class="remove-photo"
-          phx-click="remove-photo"
-          phx-value-ref="<%= photo.ref %>">
-          &times;
-        </span>
-      </li>
+<hr>
+
+<%= if errors != [] do %>
+  <ul class="alert alert-danger pl-5">
+    <%= for error <- errors do %>
+      <li><%= error %></li>
     <% end %>
   </ul>
+<% end %>
 
-  <div class="my-2"><%= live_file_input @uploads.photos %></div>
+<form phx-change="change" phx-submit="submit">
+  <div class="form-group">
+    <label>Bio</label>
+    <p class="font-weight-light">
+      Give us something good to work with.
+      If you need inspiration, checkout
+      <a href="https://www.reddit.com/r/RoastMe/" target="_blank">r/RoastMe</a>.
+    </p>
+    <textarea name="bio" class="form-control"><%= @bio %></textarea>
+  </div>
 
-  <button type="submit" class="btn btn-primary mt-2">Submit</button>
+  <div class="form-group">
+    <label>Photos </label>
+    <p class="font-weight-light">You need at least one and can have up to five. Max file size is 5 MB.</p>
+    <ul class="setup-photos my-2">
+      <%= for photo <- @uploads.photos.entries do %>
+        <li>
+          <%= live_img_preview photo, width: 200 %>
+
+          <span
+            class="remove-photo"
+            phx-click="remove-photo"
+            phx-value-ref="<%= photo.ref %>">
+            &times;
+          </span>
+        </li>
+      <% end %>
+    </ul>
+    <div class="my-2"><%= live_file_input @uploads.photos %></div>
+  </div>
+
+  <%= if errors != [] do %>
+    <p class="text-danger">There are some errors! Check above for details.</p>
+  <% end %>
+
+  <button type="submit" class="btn btn-primary mt-2" phx-disable-with="Saving">Submit</button>
 </form>

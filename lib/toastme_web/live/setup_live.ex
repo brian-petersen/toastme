@@ -1,7 +1,9 @@
 defmodule ToastMeWeb.SetupLive do
   use ToastMeWeb, :live_view
 
+  alias Phoenix.Naming
   alias ToastMe.Profiles
+  alias ToastMeWeb.ErrorHelpers
 
   require Logger
 
@@ -17,9 +19,10 @@ defmodule ToastMeWeb.SetupLive do
      |> assign(:bio, "")
      |> allow_upload(:photos,
        accept: ~w(.jpg .jpeg .png),
-       max_file_size: 5 * 1_024 * 1_024,
+       max_file_size: 5 * 1024 * 1024,
        max_entries: 5
-     )}
+     )
+     |> assign(:errors, [])}
   end
 
   @impl true
@@ -29,7 +32,10 @@ defmodule ToastMeWeb.SetupLive do
 
   @impl true
   def handle_event("change", %{"bio" => bio}, socket) do
-    {:noreply, assign(socket, :bio, bio)}
+    {:noreply,
+     socket
+     |> assign(:bio, bio)
+     |> assign(:errors, [])}
   end
 
   @impl true
@@ -40,16 +46,18 @@ defmodule ToastMeWeb.SetupLive do
       photos: get_photo_filenames(socket)
     }
 
-    case Profiles.create(params) do
-      {:ok, profile} ->
-        copy_uploaded_files(socket, profile)
-        {:noreply, redirect(socket, to: Routes.match_path(socket, :index))}
+    socket =
+      case Profiles.create(params) do
+        {:ok, profile} ->
+          copy_uploaded_files(socket, profile)
+          redirect(socket, to: Routes.match_path(socket, :index))
 
-      {:error, changeset} ->
-        # TODO show changeset errors
-        IO.inspect(changeset)
-        {:noreply, socket}
-    end
+        {:error, changeset} ->
+          errors = ErrorHelpers.pretty_errors(changeset.errors)
+          assign(socket, :errors, errors)
+      end
+
+    {:noreply, socket}
   end
 
   defp copy_uploaded_files(socket, profile) do
@@ -59,7 +67,6 @@ defmodule ToastMeWeb.SetupLive do
 
       case File.cp(meta.path, dest) do
         {:error, reason} ->
-          # TODO mark profile as dirty?
           Logger.error("Failed to copy uploaded file #{inspect(reason)} for #{inspect(profile)}")
 
         :ok ->
@@ -72,6 +79,14 @@ defmodule ToastMeWeb.SetupLive do
     [ext | _] = MIME.extensions(mime)
     ext
   end
+
+  defp format_errors(errors, photo_errors) do
+    errors ++ Enum.map(photo_errors, &format_photo_error/1)
+  end
+
+  defp format_photo_error({_, :too_many_files}), do: "Too many profile photos"
+  defp format_photo_error({_, :too_large}), do: "Photo is too large"
+  defp format_photo_error({_, reason}), do: Naming.humanize(reason)
 
   defp get_photo_entry_filename(entry) do
     "#{entry.uuid}.#{ext(entry.client_type)}"
