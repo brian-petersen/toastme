@@ -1,5 +1,14 @@
 <div>
-  <h3 class="text-center mb-3">Swipe, match, and roast.</h3>
+  <div class="p-3 mb-3 bg-dark text-white rounded">
+    <p>
+      Meet strangers and make friends through roasting each other.
+      Savagery and viciousness are encouraged.
+    </p>
+
+    <p>Think Tinder, but instead of dating/hooking up, you roast each other.</p>
+
+    <a href="#form" class="btn btn-primary">Get Started Now</a>
+  </div>
 
   <ul class="nav nav-tabs mb-3">
     <li class="nav-item">
@@ -20,7 +29,7 @@
   <% end %>
 
   <%= if @show_login do %>
-    <form phx-change="login-change" phx-submit="login">
+    <form id="form" phx-change="login-change" phx-submit="login">
       <div class="form-group">
         <label>Username</label>
         <input type="text" name="username" class="form-control" value="<%= @username %>">
@@ -34,7 +43,7 @@
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
   <% else %>
-    <form phx-change="register-change" phx-submit="register">
+    <form id="form" phx-change="register-change" phx-submit="register">
       <div class="form-group">
         <label>Username</label>
         <input type="text" name="username" class="form-control" value="<%= @username %>">
